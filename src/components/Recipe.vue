@@ -1,36 +1,39 @@
 <template>
   <div class="card" style="width: 18rem">
-    <img class="card-img-top" :src="recipe.image" alt="Card image cap" />
+    <img
+      v-if="recipe.image"
+      class="card-img-top"
+      :src="recipe.image"
+      alt="Card image cap"
+    />
+    <img v-else src="../assets/defaultPicture2.jpg" class="card-img-top" />
     <div class="card-body">
-      <h2>{{ recipe.title }}</h2>
+      <router-link class="h3" :to="'/recipes/' + recipe.id">{{
+        recipe.title
+      }}</router-link>
+      <!-- <p>{{ recipe.id }}</p> -->
       <p class="card-text">
         Some quick example text to build on the card title and make up the bulk
         of the card's content.
       </p>
-      <a  @click="getRecipeByID()" class="btn">Go somewhere</a>
+      <!-- <router-link class="btn" :to="'/recipes/' + recipe.id">Go somewhere</router-link> -->
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+// import axios from 'axios';
 export default {
   props: ["recipe"],
 
-data(){
+  data() {
     return {
-        recipeInformation: {},
-        number: this.$router.currentRoute.params.id
+      recipeInformation: {},
+      number: this.$router.currentRoute.params.id,
     };
-},
+  },
   methods: {
-    getRecipeByID() {
-      axios.get(`https://api.spoonacular.com/recipes/${this.number}/information&apiKey=8da321c03d9f42f1b5144e226ced2cae`)
-      .then((response)=>{
-          this.recipeInformation = response.data
-          console.log(this.recipeInformation)
-      });
-    },
+   
   },
 };
 </script>
@@ -45,21 +48,18 @@ data(){
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
     rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  background-color: var(--light-color);
 }
 .card img {
   padding: 10px;
   border-radius: 20px;
 }
-.card-body a {
-  position: absolute;
-  bottom: 26px;
-  right: 20px;
-  background-color: #9a1750;
-  color: #e3e2df;
+/* .card-body a {
+  color: #000;
   text-decoration: none;
   border: none;
   outline: none;
-}
+} */
 .card-body a:hover,
 .card-body a:active,
 .card-body a:visited {
@@ -67,7 +67,20 @@ data(){
   border: none;
   outline: none;
 }
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.card-body a {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--dark-color);
+}
 .card-body a:hover {
-  color: #e3afbc;
+  color: var(--middle-color) ;
+}
+.card img {
+  height: 43%;
 }
 </style>

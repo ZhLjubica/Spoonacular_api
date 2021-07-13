@@ -4,9 +4,9 @@
     <h1 class="display-3">Most popular recipes!</h1>
     <ul class="card-deck">
       <li v-for="recipe in recipes" :key="recipe.id">
-        <router-link class="routerLink" to="/recipes/ + recipe.id">
+        <!-- <router-link class="routerLink" to="/recipes/ + recipe.id"> -->
           <Recipe :recipe="recipe" />
-        </router-link>
+        <!-- </router-link> -->
       </li>
     </ul>
   </div>
@@ -20,7 +20,7 @@ import Recipe from "./Recipe";
 export default {
   data() {
     return {
-      recipes: [],
+      recipes: {},
       randomRecipe: "",
     };
   },
@@ -64,11 +64,23 @@ ul li {
 }
 .display-3 {
   text-align: center;
-  color: #e3afbc;
+  color: var(--dark-color);
+  text-shadow:5px 5px 5px #fff;
 }
 .card-deck {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.routerLink h2{
+  color: #fff;
+}
+.routerLink{
+  /* color: #9a1750; */
+  color: #000;
+}
+
+.routerLink:hover {
+  text-decoration: none;
 }
 </style>

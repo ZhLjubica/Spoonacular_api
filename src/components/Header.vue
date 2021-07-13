@@ -2,9 +2,9 @@
   <div>
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#"
+        <router-link class="navbar-brand" href="#" to="/"
           ><img src="../assets/foodCaptain2.png" alt=""
-        /></a>
+        /></router-link>
         <div class="navbar-elements">
           <ul class="navbar-nav">
             <li role="presentation" class="nav-item">
@@ -45,12 +45,12 @@ nav a img {
   height: 150px;
 }
 nav a {
-  color: #9a1570;
+  color: var(--midlle-color);
   font-size: 20px;
   font-weight: bold;
 }
 nav a:hover {
-  color: #fff;
+  color: var(--dark-color);
 }
 .navbar-nav li {
   margin-right: 60px;
