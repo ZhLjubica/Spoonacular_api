@@ -5,10 +5,11 @@
     <ul class="card-deck">
       <li v-for="recipe in recipes" :key="recipe.id">
         <!-- <router-link class="routerLink" to="/recipes/ + recipe.id"> -->
-          <Recipe :recipe="recipe" />
+        <Recipe :recipe="recipe" />
         <!-- </router-link> -->
       </li>
     </ul>
+    <Footer />
   </div>
 </template>
 
@@ -16,6 +17,7 @@
 import Header from "./Header.vue";
 import axios from "axios";
 import Recipe from "./Recipe";
+import Footer from "./Footer.vue";
 
 export default {
   data() {
@@ -27,6 +29,7 @@ export default {
   components: {
     Recipe,
     Header,
+    Footer,
   },
   mounted() {
     axios
@@ -65,17 +68,17 @@ ul li {
 .display-3 {
   text-align: center;
   color: var(--dark-color);
-  text-shadow:5px 5px 5px #fff;
+  text-shadow: 5px 5px 5px #fff;
 }
 .card-deck {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.routerLink h2{
+.routerLink h2 {
   color: #fff;
 }
-.routerLink{
+.routerLink {
   /* color: #9a1750; */
   color: #000;
 }

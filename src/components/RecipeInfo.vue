@@ -32,6 +32,7 @@
       </div>
     </div>
     <SimilarRecipes :number="number" :recipeInformation="recipeInformation" />
+    <Footer/>
   </div>
 </template>
 
@@ -40,6 +41,7 @@ import Header from "./Header.vue";
 import axios from "axios";
 import Ingredients from "./Ingredients.vue";
 import SimilarRecipes from "./SimilarRecipes.vue";
+import Footer from "./Footer.vue";
 export default {
   data() {
     return {
@@ -53,6 +55,7 @@ export default {
     Header,
     Ingredients,
     SimilarRecipes,
+    Footer
   },
   methods: {
     init() {

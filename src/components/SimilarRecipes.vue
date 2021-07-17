@@ -1,7 +1,7 @@
 <template>
   <div class="similarRecipes">
     <h1 class="display-4">Similar Recipes</h1>
-    <ul class="card-deck">
+    <!-- <ul class="card-deck">
       <li
         v-for="similarRecipe in similarRecipes"
         :key="similarRecipe.sourceUrl"
@@ -16,9 +16,7 @@
               >{{ similarRecipe.title }}</router-link
             >
 
-            <!-- <a class="h3" href="/recipes/${similarRecipe.id}">{{
-              similarRecipe.title
-            }}</a> -->
+            
             <p class="card-text">
               Some quick example text to build on the card title and make up the
               bulk of the card's content.
@@ -26,12 +24,57 @@
           </div>
         </div>
       </li>
-    </ul>
+    </ul>  -->
+    <div class="carousel-wrapper" ref="wrapper">
+      <div
+        class="carousel--nav__left"
+        @click="moveCarousel(-1)"
+        :disabled="atHeadOfList"
+      ></div>
+      <div class="carousel" :style="{ width: carouselWidth + 'px' }">
+        <div
+          class="carousel-items"
+          :style="{
+            transform: 'translateX' + '(' + currentOffset + 'px' + ')',
+          }"
+        >
+          <div
+            ref="card"
+            class="carousel--card"
+            v-for="similarRecipe in similarRecipes"
+            :key="similarRecipe.sourceUrl"
+          >
+            <div class="card" style="width: 18rem">
+              <img :src="info.image" alt="card image" />
+              <div class="card-body">
+                <router-link
+                  key="reRenderKey"
+                  class="h3"
+                  :to="'/recipes/' + similarRecipe.id"
+                  >{{ similarRecipe.title }}</router-link
+                >
+
+                <p class="card-text">
+                  Some quick example text to build on the card title and make up
+                  the bulk of the card's content.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="carousel--nav__right"
+        @click="moveCarousel(1)"
+        :disabled="atEndOfList"
+      ></div>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+
 // import Recipe from "./Recipe.vue";
 
 export default {
@@ -39,16 +82,44 @@ export default {
   data() {
     return {
       similarRecipes: [],
-      info: []
+      info: [],
+      currentOffset: 0,
+      paginationFactor: 200,
+      carouselWidth: 1000,
+      numOfCards: 5,
     };
   },
   components: {
     // Recipe,
   },
+  computed: {
+    atEndOfList() {
+      return (
+        this.currentOffset <=
+        this.paginationFactor *
+          -1 *
+          (this.similarRecipes.length - this.numOfCards)
+      );
+    },
+    atHeadOfList() {
+      return this.currentOffset === 0;
+    },
+  },
   methods: {
     // ...
     pageChangeHandler(selectedPage) {
       this.currentPage = selectedPage;
+    },
+    moveCarousel(direction) {
+      this.setPagination();
+      if (direction === 1 && !this.atEndOfList) {
+        this.currentOffset -= this.paginationFactor;
+      } else if (direction === -1 && !this.atHeadOfList) {
+        this.currentOffset += this.paginationFactor;
+      }
+    },
+    setPagination() {
+      this.paginationFactor = this.$refs.card[0].clientWidth + 30;
     },
   },
   mounted() {
@@ -89,8 +160,63 @@ export default {
   text-shadow: 5px 5px 5px #fff;
   margin-bottom: 40px;
 }
+
 .card-deck li {
   list-style-type: none;
+}
+.carousel-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 45px auto;
+}
+.carousel {
+  justify-content: center;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.carousel--overflow-container {
+  overflow: hidden;
+}
+.carousel--nav__left,
+.carousel--nav__right {
+  display: inline-block;
+  padding: 20px;
+  border-top: 2px solid #f1f2f6;
+  border-right: 2px solid #f1f2f6;
+  cursor: pointer;
+  margin: 0 20px;
+}
+.carousel--nav__left:disabled,
+.carousel--nav__right:disabled {
+  opacity: 0.25;
+  cursor: auto;
+}
+.carousel--nav__left {
+  transform: rotate(-135deg);
+}
+.carousel--nav__left:active {
+  transform: rotate(-135deg) scale(0.9);
+}
+.carousel--nav__right {
+  transform: rotate(45deg);
+}
+.carousel--nav__right:active {
+    transform: rotate(45deg) scale(0.9);
+}
+.carousel-items {
+    display: flex;
+    transition: transform 1000ms ease;
+}
+.carousel--card {
+    cursor: pointer;
+    margin: 0 15px
+}
+.carousel--card:first-child {
+    margin-left: 0;
+}
+.carousel--card:last-child {
+    margin-right: 0;
 }
 .card {
   height: 500px;
@@ -117,4 +243,6 @@ export default {
   font-weight: bold;
   color: var(--dark-color);
 }
+
+
 </style>
